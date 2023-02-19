@@ -1,8 +1,9 @@
 import React from 'react'
+import { Text } from 'react-native-paper'
 
 const PromptEditor = () => {
   return (
-    <div>PromptEditor</div>
+    <Text>PromptEditor</Text>
   )
 }
 

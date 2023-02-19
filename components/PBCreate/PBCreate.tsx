@@ -5,28 +5,20 @@ import { FAB } from 'react-native-paper';
 import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
-  appbar: {
-
-  },
-  PBCreateContainer: {
-
-  },
   fab: {
     position: 'absolute',
     margin: 16,
     right: 0,
-    bottom: -700,
+    bottom: -650,
   },
 });
 
-const PBCreate = () => {
+
+
+const PBCreate = ({navigation}: any) => {
   return (
-    <View
-      style={styles.PBCreateContainer}
-    >
-      <Appbar
-        style={styles.appbar}
-      >
+    <View>
+      <Appbar>
         <Appbar.BackAction onPress={() => {}} />
         <Appbar.Content title="New Prompt Board" />
       </Appbar>
@@ -34,7 +26,7 @@ const PBCreate = () => {
       <FAB
         icon="plus"
         style={styles.fab}
-        onPress={() => console.log('Pressed')}
+        onPress={() => navigation.navigate('PromptEditor')}
       />
       
     </View>
