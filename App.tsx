@@ -20,22 +20,14 @@ const theme = {
   colors: yelowTheme,
 };
 
-const styles = StyleSheet.create({
-  container: {
-    // marginTop: Constants.statusBarHeight,
-    // flex: 1,
-    justifyContent: 'center',
-  },
-});
-
 export default function App() {
   return (
-    <NavigationContainer>
-      <PaperProvider theme={theme}>
+    <PaperProvider theme={theme}>
+      <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
             name="PBCreate"
-            options={{title: 'Prompt Board Creator'}}
+            options={{title: 'New Prompt Board'}}
             component={PBCreate}
           />
           <Stack.Screen
@@ -44,7 +36,7 @@ export default function App() {
             component={PromptEditor}
           />
         </Stack.Navigator>
-      </PaperProvider>
-    </NavigationContainer>
+      </NavigationContainer>
+    </PaperProvider>
   );
 }
