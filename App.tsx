@@ -11,6 +11,7 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PromptEditor from './components/PBCreate/PromptEditor';
+import { Text } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,7 @@ export default function App() {
           />
           <Stack.Screen
             name="PromptEditor"
-            options={{title: 'Create Prompt and Response'}}
+            options={{title: 'Create Prompt'}}
             component={PromptEditor}
           />
         </Stack.Navigator>

@@ -1,12 +1,18 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native';
-import { TextInput, Text, Button } from 'react-native-paper';
+import { TextInput as RPTextInput, Text, Button } from 'react-native-paper';
+import { TextInput } from 'react-native';
 
 
 const styles = StyleSheet.create({
+  promptInput: {
+    marginTop: 10,
+    padding: 10,
+    fontSize: 25,
+  },
   answerInput: {
-    // height: 0,
-
+    padding: 10,
+    fontSize: 15,
   },
   btn: {
     width: 200,
@@ -14,7 +20,10 @@ const styles = StyleSheet.create({
   btnContainer: {
     marginTop: 10,
     alignItems: 'center'
-  }
+  },
+  textInput: {
+
+  },
 });
 
 const PromptEditor = ({route, navigation}: any) => {
@@ -36,19 +45,6 @@ const PromptEditor = ({route, navigation}: any) => {
     
   return (
     <View >
-      <TextInput
-        label="Prompt"
-        value={prompt}
-        multiline
-        onChangeText={prompt => setPrompt(prompt)}
-      />
-      <TextInput
-        style={styles.answerInput}
-        label="Your Answer"
-        multiline
-        value={answer}
-        onChangeText={answer => setAnswer(answer)}
-      />
       <View
         style={styles.btnContainer}
       >
@@ -60,6 +56,20 @@ const PromptEditor = ({route, navigation}: any) => {
           Add
         </Button>
       </View>
+      <TextInput
+        multiline
+        onChangeText={prompt => setPrompt(prompt)}
+        defaultValue={"Write a prompt"}
+        style={styles.promptInput}
+        clearTextOnFocus={true}
+      /> 
+      <TextInput
+        multiline
+        onChangeText={answer => setAnswer(answer)}
+        defaultValue={"Write your response"}
+        style={styles.answerInput}
+        clearTextOnFocus={true}
+      /> 
     </View>
   )
 }
