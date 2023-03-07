@@ -5,13 +5,14 @@ import { TextInput } from 'react-native';
 
 
 const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   promptInput: {
-    marginTop: 10,
-    padding: 10,
     fontSize: 25,
   },
   answerInput: {
-    padding: 10,
     fontSize: 15,
   },
   btn: {
@@ -44,7 +45,7 @@ const PromptEditor = ({route, navigation}: any) => {
   }
     
   return (
-    <View >
+    <View style={styles.container}>
       <View
         style={styles.btnContainer}
       >

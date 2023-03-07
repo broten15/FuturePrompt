@@ -12,6 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PromptEditor from './components/PBCreate/PromptEditor';
 import { Text } from 'react-native-paper';
+import Dash from './components/Dash';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,11 @@ export default function App() {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen
+            name="Dash"
+            options={{title: 'Prompt Boards'}}
+            component={Dash}
+          />
           <Stack.Screen
             name="PBCreate"
             options={{title: 'New Prompt Board'}}

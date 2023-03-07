@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native';
-import { Text, Appbar, FAB, Card } from 'react-native-paper';
-import Constants from 'expo-constants';
+import { View, StyleSheet, TextInput } from 'react-native';
+import { Text, Appbar, FAB, Card, Button } from 'react-native-paper';
+import { DatePickerInput } from 'react-native-paper-dates';
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%'
-    // marginTop: Constants.statusBarHeight,
-    // flex: 1,
-    // justifyContent: 'center',
+    height: '100%',
+    padding: 10,
   },
   fab: {
     position: 'absolute',
@@ -17,13 +15,45 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
   card: {
-    margin: 5,
-  }
+    marginTop: 10,
+  },
+  PBName: {
+    fontSize: 30,
+  },
+  cardContent: {
+
+  },
+
+  // TODO: refactor this
+  btn: {
+    width: 200,
+  },
+  btnContainer: {
+    marginBottom: 10,
+    alignItems: 'center'
+  },
 });
 
-const PBCreate = ({navigation}: any) => {
-  const [prompts, setPrompts] = React.useState([]);
-  const [answers, setAnswers] = React.useState([]);
+const PBCreate = ({route, navigation}: any) => {
+  const {setPromptBoards} = route.params;
+
+  const [PBName, setPBName] = useState([]);
+  const [prompts, setPrompts] = useState([]);
+  const [answers, setAnswers] = useState([]);
+  const [date, setDate] = useState(undefined);
+
+
+  const addProptBoard = () => {
+    const newPromptBoard = {
+      name: PBName,
+      prompts: prompts,
+      answers: answers,
+      receiveDate: date,
+      createDate: new Date(),
+    }
+    setPromptBoards(newPromptBoard);
+    navigation.navigate('Dash');
+  }
 
   return (
     <View style={styles.container}>
@@ -33,19 +63,47 @@ const PBCreate = ({navigation}: any) => {
           <Appbar.Content title="New Prompt Board" />
         </Appbar> */}
 
+
+        <View
+          style={styles.btnContainer}
+        >
+          <Button 
+            mode="contained" 
+            style={styles.btn}
+            // onPress={() => addProptBoard()}
+          >
+            Submit
+          </Button>
+        </View>
+
+        <DatePickerInput
+          locale="en"
+          label="Return Date"
+          value={date}
+          onChange={(d) => setDate(d)}
+          inputMode="start"
+        />
+
+        <TextInput
+          multiline
+          onChangeText={p => setPBName(p)}
+          defaultValue={"Write a Prompt Board Name"}
+          style={styles.PBName}
+          // clearTextOnFocus={true}
+        /> 
+
         {prompts.map((prompt, index) => (
           <Card 
             style={styles.card}
             mode='contained'
             key={`prompt${index}`}
           >
-            <Card.Content>
+            <Card.Content style={styles.cardContent}>
               <Text variant="titleLarge">{prompt}</Text>
               <Text variant="bodyMedium">{answers[index]}</Text>
             </Card.Content>
           </Card>
         ))}
-
       </View>
 
       <FAB
