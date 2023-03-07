@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
 const PromptEditor = ({route, navigation}: any) => {
   const {prompts, setPrompts, answers, setAnswers} = route.params;
 
-
   const [prompt, setPrompt] = React.useState("");
   const [answer, setAnswer] = React.useState("");
 

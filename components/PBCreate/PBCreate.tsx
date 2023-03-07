@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 });
 
 const PBCreate = ({route, navigation}: any) => {
-  const {setPromptBoards} = route.params;
+  const {promptBoards, setPromptBoards} = route.params;
 
   const [PBName, setPBName] = useState([]);
   const [prompts, setPrompts] = useState([]);
@@ -48,10 +48,12 @@ const PBCreate = ({route, navigation}: any) => {
       name: PBName,
       prompts: prompts,
       answers: answers,
-      receiveDate: date,
-      createDate: new Date(),
+      receiveDate: date.toDateString(),
+      createDate: (new Date()).toDateString(),
     }
-    setPromptBoards(newPromptBoard);
+    const newPromptBoards = promptBoards.map(p => p);
+    newPromptBoards.push(newPromptBoard);
+    setPromptBoards(newPromptBoards);
     navigation.navigate('Dash');
   }
 
@@ -70,7 +72,7 @@ const PBCreate = ({route, navigation}: any) => {
           <Button 
             mode="contained" 
             style={styles.btn}
-            // onPress={() => addProptBoard()}
+            onPress={() => addProptBoard()}
           >
             Submit
           </Button>

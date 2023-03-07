@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
   PBEntry: {
-
+    margin: 10,
   },
   entryName: {
     fontSize: 20,
@@ -47,7 +47,7 @@ const Dash = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       {promptBoards.map((pb) => (
-        <View>
+        <View style={styles.PBEntry}>
           <Text style={styles.entryName}>{pb.name}</Text>
           <Text>Created on {pb.createDate}</Text>
           <Text>Reveive on {pb.receiveDate}</Text>
@@ -59,6 +59,7 @@ const Dash = ({navigation}: any) => {
         icon="plus"
         style={styles.fab}
         onPress={() => navigation.navigate('PBCreate', {
+          promptBoards: promptBoards,
           setPromptBoards: setPromptBoards,
         })}
       />
