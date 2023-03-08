@@ -63,7 +63,6 @@ const PromptEditor = ({route}: any) => {
         onChangeText={prompt => setPrompt(prompt)}
         defaultValue={"Write a prompt"}
         style={styles.promptInput}
-        clearTextOnFocus={true}
       /> 
       <TextInput
         multiline

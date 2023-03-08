@@ -12,7 +12,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PromptEditor from './components/PBCreate/PromptEditor';
 import { Text } from 'react-native-paper';
-import Dash from './components/Dash';
+import Dash from './components/Dash/Dash';
 import MyAppBar from './components/MyAppBar';
 
 const Stack = createNativeStackNavigator();

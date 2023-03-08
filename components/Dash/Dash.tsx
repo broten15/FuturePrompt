@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet, TextInput } from 'react-native';
 import { Text, Appbar, FAB, Card, Button, BottomNavigation } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
+import PBTimeLine from './PBTimeLine';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,13 +47,9 @@ const Dash = ({navigation}: any) => {
   
   return (
     <View style={styles.container}>
-      {promptBoards.map((pb) => (
-        <View style={styles.PBEntry}>
-          <Text style={styles.entryName}>{pb.name}</Text>
-          <Text>Created on {pb.createDate}</Text>
-          <Text>Reveive on {pb.receiveDate}</Text>
-        </View>
-      ))}
+      <PBTimeLine 
+        promptBoards={promptBoards}
+      />
       
 
       <FAB

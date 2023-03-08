@@ -1,14 +1,23 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Appbar } from 'react-native-paper';
+import { Appbar, Button } from 'react-native-paper';
 
 
 const MyAppBar = (props: any) => {
+  const {navigation, back, options} = props;
+  console.log(props);
 
-    
+
   return (
     <Appbar.Header>
-      <Appbar.Content title="My awesome app" />
+      {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
+      <Appbar.Content title={options.title} />
+      
+      {/* <Button 
+        mode="contained" 
+      >
+        Submit
+      </Button> */}
     </Appbar.Header>
   );
 }
