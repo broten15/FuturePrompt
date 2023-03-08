@@ -13,6 +13,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import PromptEditor from './components/PBCreate/PromptEditor';
 import { Text } from 'react-native-paper';
 import Dash from './components/Dash';
+import MyAppBar from './components/MyAppBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,12 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          initialRouteName="Dash"
+          screenOptions={{
+            header: (props) => <MyAppBar {...props} />,
+          }}
+        >
           <Stack.Screen
             name="Dash"
             options={{title: 'Prompt Boards'}}
