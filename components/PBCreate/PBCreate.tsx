@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { View, StyleSheet, TextInput } from 'react-native';
 import { Text, Appbar, FAB, Card, Button } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
+import { en, registerTranslation } from 'react-native-paper-dates'
+
+registerTranslation('en', en)
 
 const styles = StyleSheet.create({
   container: {
