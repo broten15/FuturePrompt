@@ -3,6 +3,7 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import { Text, Appbar, FAB, Card, Button } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import { en, registerTranslation } from 'react-native-paper-dates'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 registerTranslation('en', en)
 
@@ -46,7 +47,8 @@ const PBCreate = ({route, navigation}: any) => {
   const [date, setDate] = useState(undefined);
 
 
-  const addProptBoard = () => {
+
+  const addProptBoard = async () => {
     const newPromptBoard = {
       name: PBName,
       prompts: prompts,
@@ -56,7 +58,10 @@ const PBCreate = ({route, navigation}: any) => {
     }
     const newPromptBoards = promptBoards.map(p => p);
     newPromptBoards.push(newPromptBoard);
+
+    await AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
     setPromptBoards(newPromptBoards);
+
     navigation.navigate('Dash');
   }
 

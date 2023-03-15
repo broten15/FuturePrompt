@@ -14,6 +14,8 @@ import PromptEditor from './components/PBCreate/PromptEditor';
 import { Text } from 'react-native-paper';
 import Dash from './components/Dash/Dash';
 import MyAppBar from './components/MyAppBar';
+import 'intl';
+import 'intl/locale-data/jsonp/en';
 
 const Stack = createNativeStackNavigator();
 

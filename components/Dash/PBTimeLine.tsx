@@ -35,8 +35,11 @@ const PBTimeLine = (props) => {
 
   return (
     <View>
-      {promptBoards.map((pb) => (
-        <View style={styles.PBEntry}>
+      {promptBoards.map((pb, index) => (
+        <View 
+          style={styles.PBEntry}
+          key={pb.name + index}
+        >
           <Text style={styles.entryName}>{pb.name}</Text>
           <Text>Created on {pb.createDate}</Text>
           <Text>Reveive on {pb.receiveDate}</Text>

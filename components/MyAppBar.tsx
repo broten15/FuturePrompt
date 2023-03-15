@@ -5,7 +5,6 @@ import { Appbar, Button } from 'react-native-paper';
 
 const MyAppBar = (props: any) => {
   const {navigation, back, options} = props;
-  console.log(props);
 
 
   return (
