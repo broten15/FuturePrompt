@@ -57,7 +57,7 @@ const PBCreate = ({route, navigation}: any) => {
         </RPButton>
       ),
     });
-  }, []);
+  }, [PBName, prompts, answers, date]);
 
 
 
@@ -93,9 +93,10 @@ const PBCreate = ({route, navigation}: any) => {
         <TextInput
           multiline
           onChangeText={p => setPBName(p)}
-          defaultValue={"Write a Prompt Board Name"}
           style={styles.PBName}
-          // clearTextOnFocus={true}
+          clearTextOnFocus={true}
+          placeholder="Write a Prompt Board Name"
+
         /> 
 
         {prompts.map((prompt, index) => (

@@ -76,13 +76,13 @@ const PromptEditor = ({route}: any) => {
       <TextInput
         multiline
         onChangeText={prompt => {setPrompt(prompt); console.log("change");console.log(prompt)}}
-        defaultValue={"Write a prompt"}
+        placeholder="Write a prompt"
         style={styles.promptInput}
       /> 
       <TextInput
         multiline
         onChangeText={answer => setAnswer(answer)}
-        defaultValue={"Write your response"}
+        placeholder="Write your response"
         style={styles.answerInput}
         clearTextOnFocus={true}
       /> 
