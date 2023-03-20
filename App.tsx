@@ -14,6 +14,9 @@ import PromptEditor from './components/PBCreate/PromptEditor';
 import { Text } from 'react-native-paper';
 import Dash from './components/Dash/Dash';
 import MyAppBar from './components/MyAppBar';
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+import PBView from './components/PBView/PBView';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,9 +32,9 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Dash"
-          screenOptions={{
-            header: (props) => <MyAppBar {...props} />,
-          }}
+          // screenOptions={{
+          //   header: (props) => <MyAppBar {...props} />,
+          // }}
         >
           <Stack.Screen
             name="Dash"
@@ -47,6 +50,11 @@ export default function App() {
             name="PromptEditor"
             options={{title: 'Create Prompt'}}
             component={PromptEditor}
+          />
+          <Stack.Screen
+            name="PBView"
+            options={{title: 'View Prompt Board'}}
+            component={PBView}
           />
         </Stack.Navigator>
       </NavigationContainer>

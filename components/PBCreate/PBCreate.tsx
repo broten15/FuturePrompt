@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TextInput } from 'react-native';
-import { Text, Appbar, FAB, Card, Button } from 'react-native-paper';
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, TextInput, Button } from 'react-native';
+import { Text, Appbar, FAB, Card, Button as RPButton } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
+import { en, registerTranslation } from 'react-native-paper-dates'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+registerTranslation('en', en)
 
 const styles = StyleSheet.create({
   container: {
@@ -42,8 +46,22 @@ const PBCreate = ({route, navigation}: any) => {
   const [answers, setAnswers] = useState([]);
   const [date, setDate] = useState(undefined);
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <RPButton 
+          mode="contained" 
+          onPress={() => addProptBoard()}
+        >
+          Submit
+        </RPButton>
+      ),
+    });
+  }, [PBName, prompts, answers, date]);
 
-  const addProptBoard = () => {
+
+
+  const addProptBoard = async () => {
     const newPromptBoard = {
       name: PBName,
       prompts: prompts,
@@ -53,30 +71,16 @@ const PBCreate = ({route, navigation}: any) => {
     }
     const newPromptBoards = promptBoards.map(p => p);
     newPromptBoards.push(newPromptBoard);
+
+    await AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
     setPromptBoards(newPromptBoards);
+
     navigation.navigate('Dash');
   }
 
   return (
     <View style={styles.container}>
       <View>
-        {/* <Appbar>
-          <Appbar.BackAction onPress={() => {}} />
-          <Appbar.Content title="New Prompt Board" />
-        </Appbar> */}
-
-
-        <View
-          style={styles.btnContainer}
-        >
-          <Button 
-            mode="contained" 
-            style={styles.btn}
-            onPress={() => addProptBoard()}
-          >
-            Submit
-          </Button>
-        </View>
 
         <DatePickerInput
           locale="en"
@@ -89,9 +93,10 @@ const PBCreate = ({route, navigation}: any) => {
         <TextInput
           multiline
           onChangeText={p => setPBName(p)}
-          defaultValue={"Write a Prompt Board Name"}
           style={styles.PBName}
-          // clearTextOnFocus={true}
+          clearTextOnFocus={true}
+          placeholder="Write a Prompt Board Name"
+
         /> 
 
         {prompts.map((prompt, index) => (

@@ -5,7 +5,6 @@ import { Appbar, Button } from 'react-native-paper';
 
 const MyAppBar = (props: any) => {
   const {navigation, back, options} = props;
-  console.log(props);
 
 
   return (
@@ -13,11 +12,11 @@ const MyAppBar = (props: any) => {
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
       <Appbar.Content title={options.title} />
       
-      {/* <Button 
+      <Button 
         mode="contained" 
       >
         Submit
-      </Button> */}
+      </Button>
     </Appbar.Header>
   );
 }

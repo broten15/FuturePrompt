@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, TextInput } from 'react-native';
 import { Text, Appbar, FAB, Card, Button, BottomNavigation } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import PBTimeLine from './PBTimeLine';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -33,21 +35,32 @@ const styles = StyleSheet.create({
   },
 });
 
+
  
 const Dash = ({navigation}: any) => {
-  const [promptBoards, setPromptBoards] = useState([
-    {
-      name: 'Test Prompt Board',
-      prompts: ['What is your favorite color?', 'What is your favorite food?'],
-      answers: ['Blue', 'Pizza'],
-      receiveDate: '2020-10-10',
-      createDate: '2020-10-10',
+  const [promptBoards, setPromptBoards] = useState([]);
+  
+  useEffect(() => {
+    console.log('use2')
+    const getPromptBoards = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('@promptBoardsKey')
+        if (jsonValue != null) {
+          setPromptBoards(JSON.parse(jsonValue));
+        }
+      } catch(e) {
+        console.error("COULD not get promptBoards");
+        // error reading value
+      }
     }
-  ]);
+    getPromptBoards();
+  }, [])
+
   
   return (
     <View style={styles.container}>
       <PBTimeLine 
+        navigation={navigation}
         promptBoards={promptBoards}
       />
       
