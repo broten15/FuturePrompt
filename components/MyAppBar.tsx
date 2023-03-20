@@ -12,11 +12,11 @@ const MyAppBar = (props: any) => {
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
       <Appbar.Content title={options.title} />
       
-      {/* <Button 
+      <Button 
         mode="contained" 
       >
         Submit
-      </Button> */}
+      </Button>
     </Appbar.Header>
   );
 }

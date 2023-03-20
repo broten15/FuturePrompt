@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,26 +24,33 @@ const styles = StyleSheet.create({
   btn: {
     width: 200,
   },
-  btnContainer: {
+  btnContainer: { 
     marginBottom: 10,
     alignItems: 'center'
   },
 });
 
 const PBTimeLine = (props) => {
-  const {promptBoards} = props;
+  const {promptBoards, navigation} = props;
 
   return (
     <View>
       {promptBoards.map((pb, index) => (
-        <View 
-          style={styles.PBEntry}
-          key={pb.name + index}
+        <TouchableOpacity 
+          key={pb.name + index} 
+          onPress={() => navigation.navigate('PBView', {
+            promptBoard: pb,
+          })}
         >
-          <Text style={styles.entryName}>{pb.name}</Text>
-          <Text>Created on {pb.createDate}</Text>
-          <Text>Reveive on {pb.receiveDate}</Text>
-        </View>
+          <View 
+            style={styles.PBEntry}
+            
+          >
+            <Text style={styles.entryName}>{pb.name}</Text>
+            <Text>Created on {pb.createDate}</Text>
+            <Text>Reveive on {pb.receiveDate}</Text>
+          </View>
+        </TouchableOpacity>
       ))}
     </View>
   );

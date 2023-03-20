@@ -41,6 +41,7 @@ const Dash = ({navigation}: any) => {
   const [promptBoards, setPromptBoards] = useState([]);
   
   useEffect(() => {
+    console.log('use2')
     const getPromptBoards = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('@promptBoardsKey')
@@ -59,6 +60,7 @@ const Dash = ({navigation}: any) => {
   return (
     <View style={styles.container}>
       <PBTimeLine 
+        navigation={navigation}
         promptBoards={promptBoards}
       />
       

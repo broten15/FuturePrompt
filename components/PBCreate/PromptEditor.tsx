@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet } from 'react-native';
-import { TextInput as RPTextInput, Text, Button } from 'react-native-paper';
+import { TextInput as RPTextInput, Text, Button as RPButton } from 'react-native-paper';
 import { TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -32,8 +32,21 @@ const PromptEditor = ({route}: any) => {
   const {prompts, setPrompts, answers, setAnswers} = route.params;
   const navigation = useNavigation();
 
-  const [prompt, setPrompt] = React.useState("");
-  const [answer, setAnswer] = React.useState("");
+  const [prompt, setPrompt] = useState("");
+  const [answer, setAnswer] = useState("");
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <RPButton 
+          mode="contained" 
+          onPress={() => addPromptResponse()}
+        >
+          Add
+        </RPButton>
+      ),
+    });
+  }, [prompt, answer]); // TODO: Why do i need these dependencies?
 
   const addPromptResponse = () => {
     const updatedPrompts = prompts.map(prompt => prompt);
@@ -44,23 +57,25 @@ const PromptEditor = ({route}: any) => {
     setAnswers(updatedAnswers);
     navigation.goBack();
   }
+
+
     
   return (
     <View style={styles.container}>
       <View
         style={styles.btnContainer}
       >
-        <Button 
+        {/* <RPButton 
           mode="contained" 
           style={styles.btn}
           onPress={() => addPromptResponse()}
         >
           Add
-        </Button>
+        </RPButton> */}
       </View>
       <TextInput
         multiline
-        onChangeText={prompt => setPrompt(prompt)}
+        onChangeText={prompt => {setPrompt(prompt); console.log("change");console.log(prompt)}}
         defaultValue={"Write a prompt"}
         style={styles.promptInput}
       /> 
