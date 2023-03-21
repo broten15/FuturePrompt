@@ -40,6 +40,7 @@ const PBView = (props: any) => {
 
   return (
     <View style={styles.container}>
+      <Text>Created on {props.route.params.promptBoard.createDate}</Text>
       <Text
         style={styles.PBName}
       >
