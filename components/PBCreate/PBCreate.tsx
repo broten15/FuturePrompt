@@ -114,7 +114,8 @@ const PBCreate = ({route, navigation}: any) => {
       </View>
 
       <FAB
-        icon="plus"
+        // icon="plus"
+        label="Add Prompt"
         style={styles.fab}
         onPress={() => navigation.navigate('PromptEditor', {
           prompts: prompts,
