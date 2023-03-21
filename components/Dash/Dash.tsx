@@ -39,11 +39,6 @@ const styles = StyleSheet.create({
 });
 
 
-
-
-
-
- 
 const Dash = ({navigation}: any) => {
   const layout = useWindowDimensions();
 
@@ -75,9 +70,63 @@ const Dash = ({navigation}: any) => {
     <View style={styles.container}>
       <PBTimeLine 
         navigation={navigation}
-        promptBoards={promptBoards}
+        promptBoards={promptBoards.filter((pb: any) => {
+          const today = new Date();
+          const receiveDate = new Date(pb.receiveDate);
+          return receiveDate > today;
+        })}
       />
 
+
+    </View>
+  );
+
+  const SecondRoute = () => (
+    <View style={styles.container}>
+      <PBTimeLine 
+        navigation={navigation}
+        promptBoards={promptBoards.filter((pb: any) => {
+          const today = new Date();
+          const receiveDate = new Date(pb.receiveDate);
+          return receiveDate <= today;
+        })}
+      />
+
+
+    </View>
+  );
+
+
+  const renderScene = SceneMap({
+    Pending: FirstRoute,
+    Received: SecondRoute,
+  });
+
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      
+      indicatorStyle={{ backgroundColor: '#755B00' }}
+      // make text color black
+      style={{ backgroundColor: 'white' }}
+      renderLabel={({ route, focused, color }) => (
+        <Text style={{ color: 'black', margin: 8 }}>
+          {route.title}
+        </Text>
+      )}
+    />
+  );
+
+  
+  return (
+    <>
+      <TabView
+        renderTabBar={renderTabBar}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+      />
       <FAB
         icon="plus"
         style={styles.fab}
@@ -86,34 +135,7 @@ const Dash = ({navigation}: any) => {
           setPromptBoards: setPromptBoards,
         })}
       />
-    </View>
-  );
-
-
-  const renderScene = SceneMap({
-    Pending: FirstRoute,
-    Received: FirstRoute,
-  });
-
-  const renderTabBar = props => (
-    <TabBar
-      {...props}
-      // indicatorStyle={{ color: 'brown' }}
-      // make text color black
-      // style={{ backgroundColor: 'F6E2A2', textColor: 'black' }}
-      colo
-    />
-  );
-
-  
-  return (
-    <TabView
-      renderTabBar={renderTabBar}
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-    />
+    </>
   )
 }
 
