@@ -5,6 +5,9 @@ import { DatePickerInput } from 'react-native-paper-dates';
 import PBTimeLine from './PBTimeLine';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { useWindowDimensions } from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -36,12 +39,23 @@ const styles = StyleSheet.create({
 });
 
 
+
+
+
+
  
 const Dash = ({navigation}: any) => {
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'Pending', title: 'Pending' },
+    { key: 'Received', title: 'Received' },
+  ]);
+
   const [promptBoards, setPromptBoards] = useState([]);
   
   useEffect(() => {
-    console.log('use2')
     const getPromptBoards = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('@promptBoardsKey')
@@ -56,14 +70,13 @@ const Dash = ({navigation}: any) => {
     getPromptBoards();
   }, [])
 
-  
-  return (
+
+  const FirstRoute = () => (
     <View style={styles.container}>
       <PBTimeLine 
         navigation={navigation}
         promptBoards={promptBoards}
       />
-      
 
       <FAB
         icon="plus"
@@ -73,9 +86,34 @@ const Dash = ({navigation}: any) => {
           setPromptBoards: setPromptBoards,
         })}
       />
-
-
     </View>
+  );
+
+
+  const renderScene = SceneMap({
+    Pending: FirstRoute,
+    Received: FirstRoute,
+  });
+
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      // indicatorStyle={{ color: 'pink' }}
+      // make text color black
+      // style={{ backgroundColor: 'white', color: 'black' }}
+      colo
+    />
+  );
+
+  
+  return (
+    <TabView
+      renderTabBar={renderTabBar}
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={{ width: layout.width }}
+    />
   )
 }
 

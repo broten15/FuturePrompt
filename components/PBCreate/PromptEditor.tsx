@@ -75,7 +75,7 @@ const PromptEditor = ({route}: any) => {
       </View>
       <TextInput
         multiline
-        onChangeText={prompt => {setPrompt(prompt); console.log("change");console.log(prompt)}}
+        onChangeText={prompt => setPrompt(prompt)}
         placeholder="Write a prompt"
         style={styles.promptInput}
       /> 
