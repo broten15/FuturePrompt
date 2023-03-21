@@ -98,9 +98,9 @@ const Dash = ({navigation}: any) => {
   const renderTabBar = props => (
     <TabBar
       {...props}
-      // indicatorStyle={{ color: 'pink' }}
+      // indicatorStyle={{ color: 'brown' }}
       // make text color black
-      // style={{ backgroundColor: 'white', color: 'black' }}
+      // style={{ backgroundColor: 'F6E2A2', textColor: 'black' }}
       colo
     />
   );

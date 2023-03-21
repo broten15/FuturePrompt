@@ -52,7 +52,7 @@ const PBView = (props: any) => {
           key={`prompt${index}`}
         >
           <Card.Content style={styles.cardContent}>
-            <Text variant="titleLarge">asdasd</Text>
+            <Text variant="titleLarge">{prompt}</Text>
             <Text variant="bodyMedium">{answers[index]}</Text>
           </Card.Content>
         </Card>
