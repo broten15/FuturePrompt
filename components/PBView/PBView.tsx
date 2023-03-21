@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 });
 
 const PBView = (props: any) => {
-  console.log(props.route.params.prompts)
   const prompts = props.route.params.promptBoard.prompts;
   const answers = props.route.params.promptBoard.answers;
   const name = props.route.params.promptBoard.name;
