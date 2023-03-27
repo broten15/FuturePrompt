@@ -5,6 +5,8 @@ import { DatePickerInput } from 'react-native-paper-dates';
 import { en, registerTranslation } from 'react-native-paper-dates'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import * as Notifications from 'expo-notifications';
+
 registerTranslation('en', en)
 
 const styles = StyleSheet.create({
@@ -38,6 +40,9 @@ const styles = StyleSheet.create({
   },
 });
 
+
+
+
 const PBCreate = ({route, navigation}: any) => {
   const {promptBoards, setPromptBoards} = route.params;
 
@@ -59,7 +64,21 @@ const PBCreate = ({route, navigation}: any) => {
     });
   }, [PBName, prompts, answers, date]);
 
+  async function schedulePushNotification() {
+    let trigger = date;
+    const currDate = new Date();
+    trigger.setTime(currDate.getTime() + 2 * 1000)
 
+    
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: `${PBName} is now viewable! 📬`,
+        body: 'Open FuturePrompt to view your prompt board!',
+        data: { data: 'goes here' },
+      },
+      trigger,
+    });
+  }
 
   const addProptBoard = async () => {
     const newPromptBoard = {
@@ -74,6 +93,8 @@ const PBCreate = ({route, navigation}: any) => {
 
     await AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
     setPromptBoards(newPromptBoards);
+
+    await schedulePushNotification();
 
     navigation.navigate('Dash');
   }
