@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TextInput, Button, ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Appbar, FAB, Card, Button as RPButton } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import { en, registerTranslation } from 'react-native-paper-dates'
@@ -87,7 +87,7 @@ const PBCreate = ({route, navigation}: any) => {
 
   const [PBName, setPBName] = useState(preset);
   const [prompts, setPrompts] = useState(presets[preset]);
-  const [answers, setAnswers] = useState(presets[preset].map(() => "Press to edit"));
+  const [answers, setAnswers] = useState(presets[preset].map(() => "(Press to edit)"));
   const [date, setDate] = useState(undefined);
 
   useEffect(() => {
@@ -161,19 +161,29 @@ const PBCreate = ({route, navigation}: any) => {
           /> 
 
           {prompts.map((prompt, index) => (
-            <Card 
-              style={styles.card}
-              mode='contained'
-              key={`prompt${index}`}
+            <TouchableOpacity 
+              key={`prompt${index}`} 
+              onPress={() => navigation.navigate('PromptEditor', {
+                selectedIndex: index,
+                prompts: prompts,
+                setPrompts: setPrompts, 
+                answers: answers,
+                setAnswers: setAnswers,
+              })}
             >
-              <Card.Content style={styles.cardContent}>
-                <Text variant="titleLarge">{prompt}</Text>
-                <Text 
-                  variant="bodyMedium"
-                  
-                >{answers[index]}</Text>
-              </Card.Content>
-            </Card>
+              <Card 
+                style={styles.card}
+                mode='contained'
+              >
+                <Card.Content style={styles.cardContent}>
+                  <Text variant="titleLarge">{prompt}</Text>
+                  <Text 
+                    variant="bodyMedium"
+                    
+                  >{answers[index]}</Text>
+                </Card.Content>
+              </Card>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
@@ -183,6 +193,7 @@ const PBCreate = ({route, navigation}: any) => {
         label="Add Prompt"
         style={styles.fab}
         onPress={() => navigation.navigate('PromptEditor', {
+          selectedIndex: -1,
           prompts: prompts,
           setPrompts: setPrompts, 
           answers: answers,

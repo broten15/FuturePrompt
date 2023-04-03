@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
 });
 
 const PromptEditor = ({route}: any) => {
-  const {prompts, setPrompts, answers, setAnswers} = route.params;
+  const {selectedIndex, prompts, setPrompts, answers, setAnswers} = route.params;
   const navigation = useNavigation();
 
-  const [prompt, setPrompt] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [prompt, setPrompt] = useState(selectedIndex !== -1 ? prompts[selectedIndex]: "");
+  const [answer, setAnswer] = useState(selectedIndex !== -1 ? answers[selectedIndex]: "");
 
   useEffect(() => {
     navigation.setOptions({
@@ -49,11 +49,24 @@ const PromptEditor = ({route}: any) => {
   }, [prompt, answer]); // TODO: Why do i need these dependencies?
 
   const addPromptResponse = () => {
-    const updatedPrompts = prompts.map(prompt => prompt);
-    updatedPrompts.push(prompt);
+    const updatedPrompts = prompts.map((uPrompt, index) => {
+      if (index === selectedIndex) {
+        return prompt;
+      }
+      return uPrompt;
+    });
+    
+    const updatedAnswers = answers.map((uAnswer, index) => {
+      if (index === selectedIndex) {
+        return answer;
+      }
+      return uAnswer;
+    });
+    if (selectedIndex === -1) {
+      updatedPrompts.push(prompt);
+      updatedAnswers.push(answer);
+    }
     setPrompts(updatedPrompts);    
-    const updatedAnswers = answers.map(answer => answer);
-    updatedAnswers.push(answer);
     setAnswers(updatedAnswers);
     navigation.goBack();
   }
@@ -77,6 +90,7 @@ const PromptEditor = ({route}: any) => {
         multiline
         onChangeText={prompt => setPrompt(prompt)}
         placeholder="Write a prompt"
+        value={prompt}
         style={styles.promptInput}
       /> 
       <TextInput
