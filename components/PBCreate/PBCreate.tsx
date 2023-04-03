@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
   },
   PBName: {
     fontSize: 30,
+    marginTop: 10,
   },
   cardContent: {
 
