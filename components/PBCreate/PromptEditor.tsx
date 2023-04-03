@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet } from 'react-native';
-import { TextInput as RPTextInput, Text, Button as RPButton } from 'react-native-paper';
+import { TextInput as RPTextInput, Text, Button as RPButton, Appbar } from 'react-native-paper';
 import { TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -38,12 +38,26 @@ const PromptEditor = ({route}: any) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <RPButton 
-          mode="contained" 
-          onPress={() => addPromptResponse()}
-        >
-          Add
-        </RPButton>
+        <>
+          {selectedIndex !== -1 && 
+            <Appbar.Action 
+              icon={'delete'} 
+              onPress={() => {
+                const updatedPrompts = prompts.filter((uPrompt, index) => index !== selectedIndex);
+                const updatedAnswers = answers.filter((uAnswer, index) => index !== selectedIndex);
+                setPrompts(updatedPrompts);
+                setAnswers(updatedAnswers);
+                navigation.goBack();
+              }} 
+            />
+          }
+          <RPButton 
+            mode="contained" 
+            onPress={() => addPromptResponse()}
+          >
+            Add
+          </RPButton>
+        </>
       ),
     });
   }, [prompt, answer]); // TODO: Why do i need these dependencies?
