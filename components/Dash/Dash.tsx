@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Touchable, TouchableHighlight, ScrollView } from 'react-native';
 import { Text, Appbar, FAB, Card, Button, BottomNavigation } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import PBTimeLine from './PBTimeLine';
@@ -7,7 +7,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useWindowDimensions } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { Modal, Portal, Provider } from 'react-native-paper';
 
+import { Dialog, RadioButton } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,11 +38,27 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center'
   },
+
+  // make this view scrollable and cap the height at 4 items in the list of presets
+  presetList: {
+    // maxHeight: 200,
+    overflow: 'scroll',
+  },
+
+  modalContainer: {
+    flex: 1,
+  }
 });
 
 
 const Dash = ({navigation}: any) => {
   const layout = useWindowDimensions();
+
+  const [visible, setVisible] = React.useState(false);
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
+
+  const [value, setValue] = React.useState("Create without preset");
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -117,6 +135,8 @@ const Dash = ({navigation}: any) => {
     />
   );
 
+  const presets = ["Create without preset", "College", "Yearly Checkup", "Fun Questions"];
+
   
   return (
     <>
@@ -127,13 +147,46 @@ const Dash = ({navigation}: any) => {
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
       />
+
+      {/* modal window */}
+      <View style={styles.modalContainer}>
+        <Portal>
+          <Dialog visible={visible} onDismiss={hideDialog}>
+            <Dialog.Title>Choose a prompt preset</Dialog.Title>
+            <ScrollView>
+              <Dialog.Content style={styles.presetList}>
+                <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+                  {presets.map((preset, index) => (
+                    <RadioButton.Item key={`${preset}${index}`} label={preset} value={preset} />
+                  ))}
+                </RadioButton.Group>
+              </Dialog.Content>
+            </ScrollView>
+            <Dialog.Actions>
+              <Button 
+                onPress={() => {
+                  navigation.navigate('PBCreate', {
+                    preset: value,
+                    promptBoards: promptBoards,
+                    setPromptBoards: setPromptBoards,
+                  });
+                  hideDialog();
+                }}
+              >
+                Create
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </View>
+
+
       <FAB
         icon="plus"
         style={styles.fab}
-        onPress={() => navigation.navigate('PBCreate', {
-          promptBoards: promptBoards,
-          setPromptBoards: setPromptBoards,
-        })}
+        onPress={() => {
+          showDialog();
+        }}
       />
     </>
   )
