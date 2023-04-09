@@ -50,7 +50,10 @@ const PBTimeLine = (props) => {
 
   return (
     <>
-      <Timeline data={data} />
+      <Timeline 
+      data={data} 
+      columnFormat='single-column-left'
+      />
         <View>
           {promptBoards.map((pb, index) => (
             <TouchableOpacity
