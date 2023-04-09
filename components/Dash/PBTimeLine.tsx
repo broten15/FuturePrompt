@@ -32,43 +32,51 @@ const styles = StyleSheet.create({
 });
 
 const PBTimeLine = (props) => {
+  // PromptBoard = {
+  //   name: string,
+  //   prompts: lists of strings,
+  //   answers: lists of strings (same size as prommpts: prompts[i] -> answers[i]),
+  //   receiveDate: javascript date object: date.toDateString(),
+  //   createDate: javascript date object: (new Date()).toDateString(),
+  // }
+
+  // prompts boards is a list of PromptBoard
   const {promptBoards, navigation} = props;
 
-  const data = promptBoards.map((pb)=> {
-    {time: {pb.receiveDate}, title: {pb.name}, description: {pb.description}}},
-    {time: '10:45', title: 'Event 2', description: 'Event 2 Description'},
-    {time: '12:00', title: 'Event 3', description: 'Event 3 Description'},
-    {time: '14:00', title: 'Event 4', description: 'Event 4 Description'},
-    {time: '16:30', title: 'Event 5', description: 'Event 5 Description'},
-  }
-  return (
-    <><Timeline
-      data={data} />
-      <View>
-        {promptBoards.map((pb, index) => (
-          <TouchableOpacity
-            key={pb.name + index}
-            onPress={() => {
-              const today = new Date();
-              const receiveDate = new Date(pb.receiveDate);
-              if (receiveDate <= today) {
-                navigation.navigate('PBView', {
-                  promptBoard: pb,
-                });
-              }
-            } }
-          >
-            <View
-              style={styles.PBEntry}
+  const data = promptBoards.map((pb) => {
+    // {time: '10:45', title: pb.name, description: ''},
+    return {time: pb.receiveDate, title: pb.name, description: pb.description};
+  });
 
+  return (
+    <>
+      <Timeline data={data} />
+        <View>
+          {promptBoards.map((pb, index) => (
+            <TouchableOpacity
+              key={pb.name + index}
+              onPress={() => {
+                const today = new Date();
+                const receiveDate = new Date(pb.receiveDate);
+                if (receiveDate <= today) {
+                  navigation.navigate('PBView', {
+                    promptBoard: pb,
+                  });
+                }
+              } }
             >
-              <Text style={styles.entryName}>{pb.name}</Text>
-              <Text>Created on {pb.createDate}</Text>
-              <Text>Reveive on {pb.receiveDate}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View></>
+              <View
+                style={styles.PBEntry}
+
+              >
+                <Text style={styles.entryName}>{pb.name}</Text>
+                <Text>Created on {pb.createDate}</Text>
+                <Text>Reveive on {pb.receiveDate}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </>
   );
   }
 
