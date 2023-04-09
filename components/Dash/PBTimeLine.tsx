@@ -45,7 +45,7 @@ const PBTimeLine = (props) => {
 
   const data = promptBoards.map((pb) => {
     // {time: '10:45', title: pb.name, description: ''},
-    return {time: pb.receiveDate, title: pb.name, description: pb.description};
+    return {time: pb.receiveDate, title: pb.name, description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate};
   });
 
   const handlePromptBoardPress = () => {
@@ -63,8 +63,9 @@ const PBTimeLine = (props) => {
       <Timeline 
       data={data} 
       columnFormat='single-column-left'
+      showTime={false}
       />
-        <View>
+        {/* <View>
           {promptBoards.map((pb, index) => (
             <TouchableOpacity
               key={pb.name + index}
@@ -80,7 +81,7 @@ const PBTimeLine = (props) => {
               </View>
             </TouchableOpacity>
           ))}
-        </View>
+        </View> */}
       </>
   );
   }
