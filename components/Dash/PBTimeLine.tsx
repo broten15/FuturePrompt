@@ -64,6 +64,14 @@ const PBTimeLine = (props) => {
       data={data} 
       columnFormat='single-column-left'
       showTime={false}
+      separator={true}
+      circleColor="rgb(105, 93, 63)"
+      circleSize={20}
+      lineColor="rgb(105, 93, 63)"
+      lineWidth={6}
+      separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
+      // onEventPress={handlePromptBoardPress}
+      onEventPress{(event) => handlePromptBoard(event.target.value)}
       />
         {/* <View>
           {promptBoards.map((pb, index) => (
