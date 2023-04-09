@@ -20,7 +20,7 @@
     "intl": "^1.2.5",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "react-native": "0.70.5",
+    "react-native": "0.70.8",
     "react-native-pager-view": "6.0.1",
     "react-native-paper": "^5.1.4",
     "react-native-paper-dates": "^0.14.0",
