@@ -48,7 +48,11 @@ const PBTimeLine = (props) => {
     return {time: pb.receiveDate, title: pb.name, description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate};
   });
 
-  const handlePromptBoardPress = () => {
+  const handlePromptBoardPress = (event) => {
+    // need to set pb to the PromptBoard object,
+    // get that from event.target.value
+    console.log(event.target.value); // see what it is
+    const pb = ;// set this
     const today = new Date();
     const receiveDate = new Date(pb.receiveDate);
     if (receiveDate <= today) {
@@ -70,8 +74,7 @@ const PBTimeLine = (props) => {
       lineColor="rgb(105, 93, 63)"
       lineWidth={6}
       separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
-      // onEventPress={handlePromptBoardPress}
-      onEventPress{(event) => handlePromptBoard(event.target.value)}
+      onEventPress={(event) => handlePromptBoardPress(event)}
       />
         {/* <View>
           {promptBoards.map((pb, index) => (
