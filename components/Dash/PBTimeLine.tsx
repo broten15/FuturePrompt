@@ -48,6 +48,16 @@ const PBTimeLine = (props) => {
     return {time: pb.receiveDate, title: pb.name, description: pb.description};
   });
 
+  const handlePromptBoardPress = () => {
+    const today = new Date();
+    const receiveDate = new Date(pb.receiveDate);
+    if (receiveDate <= today) {
+      navigation.navigate('PBView', {
+        promptBoard: pb,
+      });
+    }
+  }
+
   return (
     <>
       <Timeline data={data} />
@@ -55,15 +65,7 @@ const PBTimeLine = (props) => {
           {promptBoards.map((pb, index) => (
             <TouchableOpacity
               key={pb.name + index}
-              onPress={() => {
-                const today = new Date();
-                const receiveDate = new Date(pb.receiveDate);
-                if (receiveDate <= today) {
-                  navigation.navigate('PBView', {
-                    promptBoard: pb,
-                  });
-                }
-              } }
+              onPress={handlePromptBoardPress}
             >
               <View
                 style={styles.PBEntry}
