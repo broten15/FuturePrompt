@@ -4,7 +4,8 @@ import {
   Provider as PaperProvider,
   MD3LightTheme as DefaultTheme,
 } from 'react-native-paper';
-import yelowTheme from './yellowTheme.json';
+import yellowTheme from './yellowTheme.json';
+import yellowThemeDark from './yellowThemeDark.json';
 import PBCreate from './components/PBCreate/PBCreate';
 import Constants from 'expo-constants';
 import * as React from 'react';
@@ -23,7 +24,7 @@ const Stack = createNativeStackNavigator();
 const theme = {
   ...DefaultTheme,
   myOwnProperty: true,
-  colors: yelowTheme,
+  colors: yellowTheme,
 };
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs([
