@@ -45,7 +45,7 @@ const PBTimeLine = (props) => {
 
   const data = promptBoards.map((pb) => {
     // {time: '10:45', title: pb.name, description: ''},
-    return {time: pb.receiveDate, title: pb.name, description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate};
+    return {time: pb.receiveDate, title: pb.name, description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate, icon: require('../../assets/map-pin-icon.svg')};
   });
 
   const handlePromptBoardPress = (event) => {
@@ -68,16 +68,17 @@ const PBTimeLine = (props) => {
   return (
     <>
       <Timeline 
-      data={data} 
-      columnFormat='single-column-left'
-      showTime={false}
-      separator={true}
-      circleColor="rgb(105, 93, 63)"
-      circleSize={20}
-      lineColor="rgb(105, 93, 63)"
-      lineWidth={6}
-      separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
-      onEventPress={(event) => handlePromptBoardPress(event)}
+        data={data} 
+        columnFormat='single-column-left'
+        showTime={false}
+        separator={true}
+        circleColor="rgb(105, 93, 63)"
+        circleSize={20}
+        lineColor="rgb(105, 93, 63)"
+        lineWidth={6}
+        separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
+        onEventPress={(event) => handlePromptBoardPress(event)}
+        innerCircle='icon'
       />
         {/* <View>
           {promptBoards.map((pb, index) => (
