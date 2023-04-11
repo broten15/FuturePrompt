@@ -51,15 +51,18 @@ const PBTimeLine = (props) => {
   const handlePromptBoardPress = (event) => {
     // need to set pb to the PromptBoard object,
     // get that from event.target.value
-    console.log(event.target.value); // see what it is
-    const pb = ;// set this
-    const today = new Date();
-    const receiveDate = new Date(pb.receiveDate);
-    if (receiveDate <= today) {
-      navigation.navigate('PBView', {
-        promptBoard: pb,
-      });
-    }
+    promptBoards.forEach((pb) => {
+      if (pb.name === event.title) {
+        const today = new Date();
+        const receiveDate = new Date(pb.receiveDate);
+        if (receiveDate <= today) {
+          navigation.navigate('PBView', {
+            promptBoard: pb,
+          });
+        }
+      }
+    });
+
   }
 
   return (
