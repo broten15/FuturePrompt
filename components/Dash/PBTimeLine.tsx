@@ -75,8 +75,8 @@ const PBTimeLine = (props) => {
         columnFormat='single-column-left'
         showTime={false}
         separator={true}
-        circleColor="rgb(255, 251, 255)"
-        circleSize={0}
+        circleColor="#f2f2f2"
+        circleSize={40}
         lineColor="rgb(105, 93, 63)"
         lineWidth={6}
         separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
