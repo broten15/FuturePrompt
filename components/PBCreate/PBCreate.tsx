@@ -107,7 +107,7 @@ const PBCreate = ({route, navigation}: any) => {
   async function schedulePushNotification() {
     let trigger = date;
     const currDate = new Date();
-    trigger.setTime(currDate.getTime() + 2 * 1000)
+    trigger.setTime(date.getTime() + 2 * 1000)
 
     
     await Notifications.scheduleNotificationAsync({
