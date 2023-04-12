@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Timeline from 'react-native-timeline-flatlist'
 
 const styles = StyleSheet.create({
@@ -45,7 +45,10 @@ const PBTimeLine = (props) => {
 
   const data = promptBoards.map((pb) => {
     // {time: '10:45', title: pb.name, description: ''},
-    return {time: pb.receiveDate, title: pb.name, description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate, icon: require('../../assets/map-pin-icon.svg')};
+    return {time: pb.receiveDate, title: pb.name, description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate, icon: <Image 
+    style={{width: 25, height: 35}}
+    source={require('../../assets/map-pin-icon.png')}
+    />} ;
   });
 
   const handlePromptBoardPress = (event) => {
@@ -72,13 +75,13 @@ const PBTimeLine = (props) => {
         columnFormat='single-column-left'
         showTime={false}
         separator={true}
-        circleColor="rgb(105, 93, 63)"
-        circleSize={20}
+        circleColor="rgb(255, 251, 255)"
+        circleSize={0}
         lineColor="rgb(105, 93, 63)"
         lineWidth={6}
         separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
         onEventPress={(event) => handlePromptBoardPress(event)}
-        innerCircle='icon'
+        innerCircle='icon' 
       />
         {/* <View>
           {promptBoards.map((pb, index) => (
