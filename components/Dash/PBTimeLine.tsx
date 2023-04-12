@@ -83,24 +83,7 @@ const PBTimeLine = (props) => {
         onEventPress={(event) => handlePromptBoardPress(event)}
         innerCircle='icon' 
       />
-        {/* <View>
-          {promptBoards.map((pb, index) => (
-            <TouchableOpacity
-              key={pb.name + index}
-              onPress={handlePromptBoardPress}
-            >
-              <View
-                style={styles.PBEntry}
-
-              >
-                <Text style={styles.entryName}>{pb.name}</Text>
-                <Text>Created on {pb.createDate}</Text>
-                <Text>Reveive on {pb.receiveDate}</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View> */}
-      </>
+    </>
   );
   }
 
