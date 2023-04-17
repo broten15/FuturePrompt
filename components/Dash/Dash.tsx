@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TextInput, Touchable, TouchableHighlight, ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, Touchable, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
 import { Text, Appbar, FAB, Card, Button, BottomNavigation } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import PBTimeLine from './PBTimeLine';
@@ -11,10 +11,13 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 
 import { Dialog, RadioButton } from 'react-native-paper';
 
+import * as Notifications from 'expo-notifications';
+
 const styles = StyleSheet.create({
   container: {
     height: '100%',
     padding: 10,
+    backgroundColor: 'rgb(236, 225, 207)',
   },
   fab: {
     position: 'absolute',
@@ -54,10 +57,9 @@ const styles = StyleSheet.create({
 const Dash = ({navigation}: any) => {
   const layout = useWindowDimensions();
 
-  const [visible, setVisible] = React.useState(false);
-  const showDialog = () => setVisible(true);
-  const hideDialog = () => setVisible(false);
-
+  const [createPBvisible, setCreatePBVisible] = useState(false);
+  const [pendingVisible, setPendingVisible] = useState(null);
+  
   const [value, setValue] = React.useState("Create without preset");
 
   const [index, setIndex] = React.useState(0);
@@ -83,11 +85,14 @@ const Dash = ({navigation}: any) => {
     getPromptBoards();
   }, [])
 
-
+  // const { width, height } = Dimensions.get("window");
+  
   const FirstRoute = () => (
     <View style={styles.container}>
+      {/* <CorkBG height={height} width={width}/> */}
       <PBTimeLine 
         navigation={navigation}
+        setPendingVisible={setPendingVisible}
         promptBoards={promptBoards.filter((pb: any) => {
           const today = new Date();
           const receiveDate = new Date(pb.receiveDate);
@@ -126,7 +131,7 @@ const Dash = ({navigation}: any) => {
       
       indicatorStyle={{ backgroundColor: '#755B00' }}
       // make text color black
-      style={{ backgroundColor: 'white' }}
+      style={{ backgroundColor: 'rgb(236, 225, 207)' }}
       renderLabel={({ route, focused, color }) => (
         <Text style={{ color: 'black', margin: 8 }}>
           {route.title}
@@ -134,6 +139,17 @@ const Dash = ({navigation}: any) => {
       )}
     />
   );
+
+  const removePromptBoard = async () => {
+    const newPromptBoards = promptBoards.filter(currPB => currPB.name !== pendingVisible);
+    await AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
+    setPromptBoards(newPromptBoards);
+
+    // remove notification
+    await Notifications.cancelScheduledNotificationAsync(pendingVisible);
+
+    setPendingVisible(null);
+  };
 
   const presets = ["Create without preset", "College", "Yearly Checkup", "Fun Questions"];
 
@@ -151,7 +167,7 @@ const Dash = ({navigation}: any) => {
       {/* modal window */}
       <View style={styles.modalContainer}>
         <Portal>
-          <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog visible={createPBvisible} onDismiss={() => setCreatePBVisible(false)}>
             <Dialog.Title>Choose a prompt preset</Dialog.Title>
             <ScrollView>
               <Dialog.Content style={styles.presetList}>
@@ -170,7 +186,7 @@ const Dash = ({navigation}: any) => {
                     promptBoards: promptBoards,
                     setPromptBoards: setPromptBoards,
                   });
-                  hideDialog();
+                  setCreatePBVisible(false);
                 }}
               >
                 Create
@@ -180,12 +196,44 @@ const Dash = ({navigation}: any) => {
         </Portal>
       </View>
 
+      {/* modal window */}
+      <View style={styles.modalContainer}>
+        <Portal>
+          <Dialog visible={pendingVisible} onDismiss={() => setPendingVisible(false)}>
+            <Dialog.Title>
+              Cannot open this prompt board yet! ⏰
+            </Dialog.Title>
+            <Dialog.Content>
+              <Text>
+{
+`You can press the entries shown under the "Received" tab to view
+
+Press "Delete" if you want to remove this prompt board`
+}
+              </Text>
+
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button 
+                onPress={() => {
+                  removePromptBoard();
+
+                  setPendingVisible(false);
+                }}
+              >
+                Delete
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </View>
 
       <FAB
-        icon="plus"
+        icon="pencil-box"
+        label="Create Board"
         style={styles.fab}
         onPress={() => {
-          showDialog();
+          setCreatePBVisible(true);
         }}
       />
     </>
