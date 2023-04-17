@@ -13,6 +13,7 @@ import { Dialog, RadioButton } from 'react-native-paper';
 
 import * as Notifications from 'expo-notifications';
 import { bgColor } from '../constants';
+import PendingModal from './PendingModal';
 
 const styles = StyleSheet.create({
   container: {
@@ -59,9 +60,9 @@ const Dash = ({navigation}: any) => {
   const layout = useWindowDimensions();
 
   const [createPBvisible, setCreatePBVisible] = useState(false);
-  const [pendingVisible, setPendingVisible] = useState(null);
   
-  const [value, setValue] = React.useState("Create without preset");
+  const [pendingVisible, setPendingVisible] = useState(null);
+  const [value, setValue] = useState("Create without preset");
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -115,8 +116,6 @@ const Dash = ({navigation}: any) => {
           return receiveDate <= today;
         })}
       />
-
-
     </View>
   );
 
@@ -141,17 +140,6 @@ const Dash = ({navigation}: any) => {
     />
   );
 
-  const removePromptBoard = async () => {
-    const newPromptBoards = promptBoards.filter(currPB => currPB.name !== pendingVisible);
-    await AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
-    setPromptBoards(newPromptBoards);
-
-    // remove notification
-    await Notifications.cancelScheduledNotificationAsync(pendingVisible);
-
-    setPendingVisible(null);
-  };
-
   const presets = ["Create without preset", "College", "Yearly Checkup", "Fun Questions"];
 
   
@@ -165,7 +153,15 @@ const Dash = ({navigation}: any) => {
         initialLayout={{ width: layout.width }}
       />
 
-      {/* modal window */}
+
+      <PendingModal
+        promptBoards={promptBoards}
+        setPromptBoards={setPromptBoards}
+        pendingVisible={pendingVisible}
+        setPendingVisible={setPendingVisible}
+      />
+
+      {/* create modal window */}
       <View style={styles.modalContainer}>
         <Portal>
           <Dialog visible={createPBvisible} onDismiss={() => setCreatePBVisible(false)}>
@@ -197,37 +193,6 @@ const Dash = ({navigation}: any) => {
         </Portal>
       </View>
 
-      {/* modal window */}
-      <View style={styles.modalContainer}>
-        <Portal>
-          <Dialog visible={pendingVisible} onDismiss={() => setPendingVisible(false)}>
-            <Dialog.Title>
-              Cannot open this prompt board yet! ⏰
-            </Dialog.Title>
-            <Dialog.Content>
-              <Text>
-{
-`You can press the entries shown under the "Received" tab to view
-
-Press "Delete" if you want to remove this prompt board`
-}
-              </Text>
-
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button 
-                onPress={() => {
-                  removePromptBoard();
-
-                  setPendingVisible(false);
-                }}
-              >
-                Delete
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
-      </View>
 
       <FAB
         icon="pencil-box"
