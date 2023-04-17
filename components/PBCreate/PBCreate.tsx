@@ -119,8 +119,9 @@ const PBCreate = ({route, navigation}: any) => {
     } else {
       trigger = date;
     }
-    trigger.setMilliseconds(currDate.getMilliseconds() + 2 * 1000)
-
+    trigger.setHours(currDate.getHours());
+    trigger.setMinutes(currDate.getMinutes());
+    trigger.setSeconds(currDate.getSeconds() + 1);
     
     await Notifications.scheduleNotificationAsync({
       identifier: PBName,

@@ -61,7 +61,7 @@ const PBView = (props: any) => {
         </>
       ),
     });
-  }, []); // TODO: Why do i need these dependencies?
+  }, []);
 
   return (
     <View style={styles.container}>
