@@ -41,14 +41,19 @@ const PBTimeLine = (props) => {
   // }
 
   // prompts boards is a list of PromptBoard
-  const {promptBoards, navigation} = props;
+  const {promptBoards, setPendingVisible, navigation} = props;
 
   const data = promptBoards.map((pb) => {
     // {time: '10:45', title: pb.name, description: ''},
-    return {time: pb.receiveDate, title: pb.name, description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate, icon: <Image 
-    style={{width: 25, height: 35}}
-    source={require('../../assets/map-pin-icon.png')}
-    />} ;
+    return {
+      time: pb.receiveDate,
+      title: pb.name,
+      description: 'Create Date: ' + pb.createDate + '\nRecieve date: ' + pb.receiveDate,
+      icon: <Image 
+              style={{width: 25, height: 35}}
+              source={require('../../assets/map-pin-icon.png')}
+            />
+    };
   });
 
   const handlePromptBoardPress = (event) => {
@@ -62,6 +67,8 @@ const PBTimeLine = (props) => {
           navigation.navigate('PBView', {
             promptBoard: pb,
           });
+        } else {
+          setPendingVisible(pb.name);
         }
       }
     });
@@ -75,10 +82,10 @@ const PBTimeLine = (props) => {
         columnFormat='single-column-left'
         showTime={false}
         separator={true}
-        circleColor="#f2f2f2"
+        circleColor='rgb(236, 225, 207)'
         circleSize={40}
         lineColor="rgb(105, 93, 63)"
-        lineWidth={6}
+        lineWidth={4}
         separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
         onEventPress={(event) => handlePromptBoardPress(event)}
         innerCircle='icon' 
