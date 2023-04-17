@@ -7,8 +7,10 @@ import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
+    height: '100%',
     paddingLeft: 10,
     paddingRight: 10,
+    backgroundColor: 'rgb(236, 225, 207)',
   },
   promptInput: {
     fontSize: 25,
