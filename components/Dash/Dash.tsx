@@ -61,8 +61,6 @@ const Dash = ({navigation}: any) => {
   const layout = useWindowDimensions();
 
   const ref = useRef();
-  
-
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -95,6 +93,7 @@ const Dash = ({navigation}: any) => {
       <PBTimeLine 
         navigation={navigation}
         setPromptBoards={setPromptBoards}
+        allPromptBoards={promptBoards}
         promptBoards={promptBoards.filter((pb: any) => {
           const today = new Date();
           const receiveDate = new Date(pb.receiveDate);
@@ -110,6 +109,8 @@ const Dash = ({navigation}: any) => {
     <View style={styles.container}>
       <PBTimeLine 
         navigation={navigation}
+        setPromptBoards={setPromptBoards}
+        allPromptBoards={promptBoards}
         promptBoards={promptBoards.filter((pb: any) => {
           const today = new Date();
           const receiveDate = new Date(pb.receiveDate);

@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react'
+import { View, StyleSheet, AsyncStorage } from 'react-native';
 import { Text, Appbar, FAB, Card, Button } from 'react-native-paper';
 import { bgColor } from '../constants';
 
@@ -35,10 +35,34 @@ const styles = StyleSheet.create({
   },
 });
 
+
 const PBView = (props: any) => {
+  const navigation = props.navigation;
   const prompts = props.route.params.promptBoard.prompts;
   const answers = props.route.params.promptBoard.answers;
   const name = props.route.params.promptBoard.name;
+  const promptBoards = props.route.params.promptBoards;
+  const setPromptBoards = props.route.params.setPromptBoards;
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <> 
+          <Appbar.Action 
+            icon={'delete'} 
+            onPress={() => {
+              console.log(promptBoards)
+              const newPromptBoards = promptBoards.filter((currPB: any) => currPB.name !== name);
+              AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
+              setPromptBoards(newPromptBoards);
+
+              navigation.goBack();
+            }} 
+          />
+        </>
+      ),
+    });
+  }, []); // TODO: Why do i need these dependencies?
 
   return (
     <View style={styles.container}>

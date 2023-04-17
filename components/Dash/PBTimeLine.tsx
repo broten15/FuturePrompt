@@ -43,7 +43,7 @@ const PBTimeLine = (props) => {
   // }
 
   // prompts boards is a list of PromptBoard
-  const {promptBoards, setPromptBoards, navigation} = props;
+  const {promptBoards, setPromptBoards, navigation, allPromptBoards} = props;
 
   const ref = useRef();
 
@@ -60,15 +60,17 @@ const PBTimeLine = (props) => {
   });
 
   const handlePromptBoardPress = (event) => {
-    // need to set pb to the PromptBoard object,
-    // get that from event.target.value
-    promptBoards.forEach((pb) => {
+    
+    allPromptBoards.forEach((pb) => {
       if (pb.name === event.title) {
         const today = new Date();
         const receiveDate = new Date(pb.receiveDate);
         if (receiveDate <= today) {
+          console.log("first", props)
           navigation.navigate('PBView', {
             promptBoard: pb,
+            promptBoards: allPromptBoards,
+            setPromptBoards: setPromptBoards,
           });
         } else {
           // setPendingVisible(pb.name);
@@ -97,7 +99,7 @@ const PBTimeLine = (props) => {
 
       <PendingModal
         ref={ref}
-        promptBoards={promptBoards}
+        promptBoards={allPromptBoards}
         setPromptBoards={setPromptBoards}
       />
     </>
