@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 
 import yellowTheme from '../../yellowTheme.json';
+import { bgColor } from '../constants';
 
 registerTranslation('en', en)
 
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 0,
     marginBottom: 100,
-    backgroundColor: 'rgb(236, 225, 207)',
+    backgroundColor: bgColor,
   },
   fab: {
     position: 'absolute',

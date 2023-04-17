@@ -79,6 +79,7 @@ LogBox.ignoreLogs([
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { useEffect, useRef, useState } from 'react';
+import { bgColor } from './components/constants';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -161,7 +162,7 @@ export default function App() {
           screenOptions={{
             // header: (props) => <MyAppBar {...props} />,
             headerStyle: {
-              backgroundColor: 'rgb(236, 225, 207)',
+              backgroundColor: bgColor,
 
             },
           }}

@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { TextInput as RPTextInput, Text, Button as RPButton, Appbar } from 'react-native-paper';
 import { TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { bgColor } from '../constants';
 
 
 const styles = StyleSheet.create({
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: 'rgb(236, 225, 207)',
+    backgroundColor: bgColor,
   },
   promptInput: {
     fontSize: 25,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Timeline from 'react-native-timeline-flatlist'
+import { bgColor } from '../constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,7 +83,7 @@ const PBTimeLine = (props) => {
         columnFormat='single-column-left'
         showTime={false}
         separator={true}
-        circleColor='rgb(236, 225, 207)'
+        circleColor={bgColor}
         circleSize={40}
         lineColor="rgb(105, 93, 63)"
         lineWidth={4}

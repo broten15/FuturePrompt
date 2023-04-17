@@ -1,12 +1,13 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native';
 import { Text, Appbar, FAB, Card, Button } from 'react-native-paper';
+import { bgColor } from '../constants';
 
 const styles = StyleSheet.create({
   container: {
     height: '100%',
     padding: 10,
-    backgroundColor: 'rgb(236, 225, 207)',
+    backgroundColor: bgColor,
   },
   fab: {
     position: 'absolute',

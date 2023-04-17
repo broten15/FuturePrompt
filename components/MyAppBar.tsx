@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Appbar, Button } from 'react-native-paper';
+import { bgColor } from './constants';
 
 
 const MyAppBar = (props: any) => {
@@ -8,7 +9,7 @@ const MyAppBar = (props: any) => {
 
 
   return (
-    <Appbar.Header style={{backgroundColor: 'rgb(236, 225, 207)'}}>
+    <Appbar.Header style={{backgroundColor: bgColor}}>
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
       <Appbar.Content title={options.title} />
     </Appbar.Header>

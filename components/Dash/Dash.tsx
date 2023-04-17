@@ -12,12 +12,13 @@ import { Modal, Portal, Provider } from 'react-native-paper';
 import { Dialog, RadioButton } from 'react-native-paper';
 
 import * as Notifications from 'expo-notifications';
+import { bgColor } from '../constants';
 
 const styles = StyleSheet.create({
   container: {
     height: '100%',
     padding: 10,
-    backgroundColor: 'rgb(236, 225, 207)',
+    backgroundColor: bgColor,
   },
   fab: {
     position: 'absolute',
@@ -131,7 +132,7 @@ const Dash = ({navigation}: any) => {
       
       indicatorStyle={{ backgroundColor: '#755B00' }}
       // make text color black
-      style={{ backgroundColor: 'rgb(236, 225, 207)' }}
+      style={{ backgroundColor: bgColor }}
       renderLabel={({ route, focused, color }) => (
         <Text style={{ color: 'black', margin: 8 }}>
           {route.title}
