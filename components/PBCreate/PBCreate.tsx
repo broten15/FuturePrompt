@@ -7,26 +7,32 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as Notifications from 'expo-notifications';
 
+import yellowTheme from '../../yellowTheme.json';
+
 registerTranslation('en', en)
 
 const styles = StyleSheet.create({
   container: {
     height: '100%',
     padding: 10,
+    paddingBottom: 0,
     marginBottom: 100,
+    backgroundColor: 'rgb(236, 225, 207)',
   },
   fab: {
     position: 'absolute',
     margin: 16,
     right: 0,
     bottom: 5,
+    backgroundColor: yellowTheme.secondaryContainer,
+    color: 'white',
   },
   card: {
     marginTop: 10,
 
   },
   PBName: {
-    fontSize: 30,
+    fontSize: 25,
     marginTop: 10,
   },
   cardContent: {
@@ -104,19 +110,24 @@ const PBCreate = ({route, navigation}: any) => {
     });
   }, [PBName, prompts, answers, date]);
 
-  async function schedulePushNotification() {
-    let trigger = date;
+  async function schedulePushNotification(PBName: string) {
     const currDate = new Date();
-    trigger.setTime(date.getTime() + 2 * 1000)
+    let trigger: Date;
+    if (!date) {
+      trigger = currDate;
+    } else {
+      trigger = date;
+    }
+    trigger.setTime(currDate.getTime() + 2 * 1000)
 
     
     await Notifications.scheduleNotificationAsync({
+      identifier: PBName,
       content: {
         title: `${PBName} is now viewable! 📬`,
         body: 'Open FuturePrompt to view your prompt board!',
-        data: { data: 'goes here' },
       },
-      trigger,
+      trigger: {date: trigger},
     });
   }
 
@@ -134,7 +145,7 @@ const PBCreate = ({route, navigation}: any) => {
     await AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
     setPromptBoards(newPromptBoards);
 
-    await schedulePushNotification();
+    await schedulePushNotification(PBName);
 
     navigation.navigate('Dash');
   }
@@ -157,8 +168,7 @@ const PBCreate = ({route, navigation}: any) => {
             onChangeText={p => setPBName(p)}
             style={styles.PBName}
             clearTextOnFocus={true}
-            placeholder="Write a Prompt Board Name"
-
+            placeholder="(Write a Prompt Board Name)"
           /> 
 
           {prompts.map((prompt, index) => (
@@ -177,7 +187,7 @@ const PBCreate = ({route, navigation}: any) => {
                 mode='contained'
               >
                 <Card.Content style={styles.cardContent}>
-                  <Text variant="titleLarge">{prompt}</Text>
+                  <Text variant="titleMedium">{prompt}</Text>
                   <Text 
                     variant="bodyMedium"
                     
@@ -190,7 +200,7 @@ const PBCreate = ({route, navigation}: any) => {
       </ScrollView>
 
       <FAB
-        // icon="plus"
+        icon="plus"
         label="Add Prompt"
         style={styles.fab}
         onPress={() => navigation.navigate('PromptEditor', {
