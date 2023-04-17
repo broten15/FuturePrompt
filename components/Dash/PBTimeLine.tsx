@@ -66,7 +66,6 @@ const PBTimeLine = (props) => {
         const today = new Date();
         const receiveDate = new Date(pb.receiveDate);
         if (receiveDate <= today) {
-          console.log("first", props)
           navigation.navigate('PBView', {
             promptBoard: pb,
             promptBoards: allPromptBoards,

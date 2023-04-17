@@ -51,7 +51,6 @@ const PBView = (props: any) => {
           <Appbar.Action 
             icon={'delete'} 
             onPress={() => {
-              console.log(promptBoards)
               const newPromptBoards = promptBoards.filter((currPB: any) => currPB.name !== name);
               AsyncStorage.setItem('@promptBoardsKey', JSON.stringify(newPromptBoards));
               setPromptBoards(newPromptBoards);
