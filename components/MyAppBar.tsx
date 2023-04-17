@@ -8,15 +8,9 @@ const MyAppBar = (props: any) => {
 
 
   return (
-    <Appbar.Header>
+    <Appbar.Header style={{backgroundColor: 'rgb(236, 225, 207)'}}>
       {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
       <Appbar.Content title={options.title} />
-      
-      <Button
-        mode="contained" 
-      >
-        Submit
-      </Button>
     </Appbar.Header>
   );
 }
