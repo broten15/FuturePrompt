@@ -156,10 +156,15 @@ export default function App() {
     <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator
+
           initialRouteName="Dash"
-          // screenOptions={{
-          //   header: (props) => <MyAppBar {...props} />,
-          // }}
+          screenOptions={{
+            // header: (props) => <MyAppBar {...props} />,
+            headerStyle: {
+              backgroundColor: 'rgb(236, 225, 207)',
+
+            },
+          }}
         >
           <Stack.Screen
             name="Dash"
@@ -168,12 +173,12 @@ export default function App() {
           />
           <Stack.Screen
             name="PBCreate"
-            options={{title: 'New Prompt Board'}}
+            options={{title: 'New Board'}}
             component={PBCreate}
           />
           <Stack.Screen
             name="PromptEditor"
-            options={{title: 'Create Prompt'}}
+            options={{title: 'Editor'}}
             component={PromptEditor}
           />
           <Stack.Screen
