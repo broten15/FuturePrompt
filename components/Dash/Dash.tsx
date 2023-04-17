@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, StyleSheet, TextInput, Touchable, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
+import { View, StyleSheet, TextInput, Touchable, TouchableHighlight, ScrollView, Dimensions, Image } from 'react-native';
 import { Text, Appbar, FAB, Card, Button, BottomNavigation } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
 import PBTimeLine from './PBTimeLine';
@@ -51,9 +51,10 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
   },
 
-  modalContainer: {
-    // flex: 1,
+  fillerContainer: {
+    alignItems: 'center',
   }
+  
 });
 
 
@@ -85,11 +86,17 @@ const Dash = ({navigation}: any) => {
     getPromptBoards();
   }, [])
 
-  // const { width, height } = Dimensions.get("window");
   
   const FirstRoute = () => (
     <View style={styles.container}>
-      {/* <CorkBG height={height} width={width}/> */}
+      <View style={styles.fillerContainer}>
+        <Image 
+          // style={{ height: 200}}
+          source={require('../../assets/sticky-notes.png')}
+        />
+        <Text style={{textAlign: 'center'}} variant="headlineLarge">Nothing here yet!</Text>
+        <Text style={{textAlign: 'center'}} variant="titleLarge">Press "Create Board" to get started Create and answer your prompts and select a date for them to be sent back.</Text>
+      </View>
       <PBTimeLine 
         navigation={navigation}
         setPromptBoards={setPromptBoards}
