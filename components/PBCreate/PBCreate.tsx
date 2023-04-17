@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { Text, Appbar, FAB, Card, Button as RPButton } from 'react-native-paper';
-import { DatePickerInput } from 'react-native-paper-dates';
+import { DatePickerInput, DatePickerModal } from 'react-native-paper-dates';
 import { en, registerTranslation } from 'react-native-paper-dates'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -97,6 +97,7 @@ const PBCreate = ({route, navigation}: any) => {
   const [prompts, setPrompts] = useState(presets[preset]);
   const [answers, setAnswers] = useState(presets[preset].map(() => "(Press to edit)"));
   const [date, setDate] = useState(undefined);
+  const [dateModelOpen, setDateModelOpen] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -152,6 +153,10 @@ const PBCreate = ({route, navigation}: any) => {
     navigation.navigate('Dash');
   }
 
+  const handleDateInput = (d: string) => {
+    console.log(d)
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -161,8 +166,20 @@ const PBCreate = ({route, navigation}: any) => {
             locale="en"
             label="Return Date"
             value={date}
+            onPressIn={() => setDateModelOpen(true)}
             onChange={(d) => setDate(d)}
             inputMode="start"
+          />
+          <DatePickerModal
+            locale="en"
+            mode="single"
+            visible={dateModelOpen}
+            onDismiss={() => {setDateModelOpen(false)}}
+            date={date}
+            onConfirm={(d) => {
+              setDate(d.date);
+              setDateModelOpen(false);
+            }}
           />
 
           <TextInput
