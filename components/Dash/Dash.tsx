@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, StyleSheet, TextInput, Touchable, TouchableHighlight, ScrollView, Dimensions } from 'react-native';
 import { Text, Appbar, FAB, Card, Button, BottomNavigation } from 'react-native-paper';
 import { DatePickerInput } from 'react-native-paper-dates';
@@ -14,6 +14,7 @@ import { Dialog, RadioButton } from 'react-native-paper';
 import * as Notifications from 'expo-notifications';
 import { bgColor } from '../constants';
 import PendingModal from './PendingModal';
+import CreateModal from './CreateModal';
 
 const styles = StyleSheet.create({
   container: {
@@ -59,10 +60,9 @@ const styles = StyleSheet.create({
 const Dash = ({navigation}: any) => {
   const layout = useWindowDimensions();
 
-  const [createPBvisible, setCreatePBVisible] = useState(false);
+  const ref = useRef();
   
-  const [pendingVisible, setPendingVisible] = useState(null);
-  const [value, setValue] = useState("Create without preset");
+
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -94,7 +94,7 @@ const Dash = ({navigation}: any) => {
       {/* <CorkBG height={height} width={width}/> */}
       <PBTimeLine 
         navigation={navigation}
-        setPendingVisible={setPendingVisible}
+        setPromptBoards={setPromptBoards}
         promptBoards={promptBoards.filter((pb: any) => {
           const today = new Date();
           const receiveDate = new Date(pb.receiveDate);
@@ -140,7 +140,6 @@ const Dash = ({navigation}: any) => {
     />
   );
 
-  const presets = ["Create without preset", "College", "Yearly Checkup", "Fun Questions"];
 
   
   return (
@@ -153,53 +152,19 @@ const Dash = ({navigation}: any) => {
         initialLayout={{ width: layout.width }}
       />
 
-
-      <PendingModal
+      <CreateModal 
         promptBoards={promptBoards}
         setPromptBoards={setPromptBoards}
-        pendingVisible={pendingVisible}
-        setPendingVisible={setPendingVisible}
+        navigation={navigation}
+        ref={ref}
       />
-
-      {/* create modal window */}
-      <View style={styles.modalContainer}>
-        <Portal>
-          <Dialog visible={createPBvisible} onDismiss={() => setCreatePBVisible(false)}>
-            <Dialog.Title>Choose a prompt preset</Dialog.Title>
-            <ScrollView>
-              <Dialog.Content style={styles.presetList}>
-                <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
-                  {presets.map((preset, index) => (
-                    <RadioButton.Item key={`${preset}${index}`} label={preset} value={preset} />
-                  ))}
-                </RadioButton.Group>
-              </Dialog.Content>
-            </ScrollView>
-            <Dialog.Actions>
-              <Button 
-                onPress={() => {
-                  navigation.navigate('PBCreate', {
-                    preset: value,
-                    promptBoards: promptBoards,
-                    setPromptBoards: setPromptBoards,
-                  });
-                  setCreatePBVisible(false);
-                }}
-              >
-                Create
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
-      </View>
-
 
       <FAB
         icon="pencil-box"
         label="Create Board"
         style={styles.fab}
         onPress={() => {
-          setCreatePBVisible(true);
+          ref.current.setCreatePBVisible();
         }}
       />
     </>

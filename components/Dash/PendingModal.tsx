@@ -1,10 +1,19 @@
-import React, { useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import { AsyncStorage, View } from 'react-native';
 import { Button, Dialog, Portal, Text } from 'react-native-paper';
 import * as Notifications from 'expo-notifications';
 
-const PendingModal = (props) => {
-  const { promptBoards, setPromptBoards, pendingVisible, setPendingVisible } = props;
+const PendingModal = forwardRef((props, ref) => {
+  const { promptBoards, setPromptBoards } = props;
+
+  const [pendingVisible, setPendingVisible] = useState(null);
+
+  const changeValue = (name: string) => {
+    setPendingVisible(name);
+  };
+  useImperativeHandle(ref, () => ({
+    setPendingVisible: (name: string) => changeValue(name)
+  }));
 
   const removePromptBoard = async () => {
     const newPromptBoards = promptBoards.filter(currPB => currPB.name !== pendingVisible);
@@ -48,6 +57,6 @@ Press "Delete" if you want to remove this prompt board`
       </Portal>
     </View>
   )
-}
+});
 
 export default PendingModal

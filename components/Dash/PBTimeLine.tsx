@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Timeline from 'react-native-timeline-flatlist'
 import { bgColor } from '../constants';
+import PendingModal from './PendingModal';
 
 const styles = StyleSheet.create({
   container: {
@@ -42,10 +43,11 @@ const PBTimeLine = (props) => {
   // }
 
   // prompts boards is a list of PromptBoard
-  const {promptBoards, setPendingVisible, navigation} = props;
+  const {promptBoards, setPromptBoards, navigation} = props;
+
+  const ref = useRef();
 
   const data = promptBoards.map((pb) => {
-    // {time: '10:45', title: pb.name, description: ''},
     return {
       time: pb.receiveDate,
       title: pb.name,
@@ -69,7 +71,8 @@ const PBTimeLine = (props) => {
             promptBoard: pb,
           });
         } else {
-          setPendingVisible(pb.name);
+          // setPendingVisible(pb.name);
+          ref.current.setPendingVisible(event.title);
         }
       }
     });
@@ -90,6 +93,12 @@ const PBTimeLine = (props) => {
         separatorStyle={{backgroundColor: "rgb(105, 93, 63)", height: 2}}
         onEventPress={(event) => handlePromptBoardPress(event)}
         innerCircle='icon' 
+      />
+
+      <PendingModal
+        ref={ref}
+        promptBoards={promptBoards}
+        setPromptBoards={setPromptBoards}
       />
     </>
   );
