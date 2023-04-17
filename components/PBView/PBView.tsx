@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     padding: 10,
+    backgroundColor: 'rgb(236, 225, 207)',
   },
   fab: {
     position: 'absolute',
