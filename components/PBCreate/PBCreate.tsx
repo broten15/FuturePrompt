@@ -153,12 +153,13 @@ const PBCreate = ({route, navigation}: any) => {
   const addProptBoard = async () => {
     const newPromptBoard = {
       name: PBName,
-      prompts: prompts,
-      answers: answers,
-      imageAssets: imageAssets,
+      prompts: prompts.filter((p, index) => answers[index] !== "" || imageAssets[index] !== null),
+      imageAssets: imageAssets.filter((i, index) => answers[index] !== "" || imageAssets[index] !== null),
+      answers: answers.filter((a, index) => a !== "" || imageAssets[index] !== null),
       receiveDate: date.toDateString(),
       createDate: (new Date()).toDateString(),
     }
+
     const newPromptBoards = promptBoards.map(p => p);
     newPromptBoards.push(newPromptBoard);
 
@@ -256,7 +257,6 @@ const PBCreate = ({route, navigation}: any) => {
           ))}
         </View>
       </ScrollView>
-        {console.log("here2",imageAssets)}
       <FAB
         icon="plus"
         label="Add Prompt"

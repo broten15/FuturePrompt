@@ -84,7 +84,9 @@ const PBView = (props: any) => {
             {answers[index] !== "" && 
               <Text variant="bodyMedium">{answers[index]}</Text>
             }
-            <ImageViewer selectedImage={imageAssets[index]}/>
+            {imageAssets[index] !== null &&
+              <ImageViewer selectedImage={imageAssets[index]}/>
+            }
           </Card.Content>
         </Card>
       ))}
