@@ -15,6 +15,7 @@ import * as Notifications from 'expo-notifications';
 import { bgColor } from '../constants';
 import PendingModal from './PendingModal';
 import CreateModal from './CreateModal';
+import Filler from './Filler';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,11 +52,10 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
   },
 
-  fillerContainer: {
-    alignItems: 'center',
-  }
   
 });
+
+
 
 
 const Dash = ({navigation}: any) => {
@@ -86,46 +86,48 @@ const Dash = ({navigation}: any) => {
     getPromptBoards();
   }, [])
 
-  
-  const FirstRoute = () => (
-    <View style={styles.container}>
-      <View style={styles.fillerContainer}>
-        <Image 
-          // style={{ height: 200}}
-          source={require('../../assets/sticky-notes.png')}
+
+  const BaseRoute = (props) => {
+    const {filteredBoards} = props;
+
+    return (
+      <View style={styles.container}>
+        {filteredBoards.length <= 0 && 
+          <Filler />
+        }
+        <PBTimeLine 
+          navigation={navigation}
+          setPromptBoards={setPromptBoards}
+          allPromptBoards={promptBoards}
+          promptBoards={filteredBoards}
         />
-        <Text style={{textAlign: 'center'}} variant="headlineLarge">Nothing here yet!</Text>
-        <Text style={{textAlign: 'center'}} variant="titleLarge">Press "Create Board" to get started Create and answer your prompts and select a date for them to be sent back.</Text>
       </View>
-      <PBTimeLine 
-        navigation={navigation}
-        setPromptBoards={setPromptBoards}
-        allPromptBoards={promptBoards}
-        promptBoards={promptBoards.filter((pb: any) => {
-          const today = new Date();
-          const receiveDate = new Date(pb.receiveDate);
-          return receiveDate > today;
-        })}
-      />
+    )
+  }
+  
+  const FirstRoute = () => {
+    const filteredBoards = promptBoards.filter((pb: any) => {
+      const today = new Date();
+      const receiveDate = new Date(pb.receiveDate);
+      return receiveDate > today;
+    })
 
+    return (
+      <BaseRoute filteredBoards={filteredBoards} />
+    )
+  };
+  
+  const SecondRoute = () => {
+    const filteredBoards = promptBoards.filter((pb: any) => {
+      const today = new Date();
+      const receiveDate = new Date(pb.receiveDate);
+      return receiveDate <= today;
+    })
 
-    </View>
-  );
-
-  const SecondRoute = () => (
-    <View style={styles.container}>
-      <PBTimeLine 
-        navigation={navigation}
-        setPromptBoards={setPromptBoards}
-        allPromptBoards={promptBoards}
-        promptBoards={promptBoards.filter((pb: any) => {
-          const today = new Date();
-          const receiveDate = new Date(pb.receiveDate);
-          return receiveDate <= today;
-        })}
-      />
-    </View>
-  );
+    return (
+      <BaseRoute filteredBoards={filteredBoards} />
+    )
+  };
 
 
   const renderScene = SceneMap({

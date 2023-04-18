@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 import { TextInput as RPTextInput, Text, Button as RPButton, Appbar } from 'react-native-paper';
 import { TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { bgColor } from '../constants';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const styles = StyleSheet.create({
   container: {
     height: '100%',
+    paddingTop : 10,
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: bgColor,
@@ -27,9 +29,22 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   textInput: {
-
+    marginBottom: 10,
   },
+  picturesContainer: {
+    alignItems: 'center',
+  }
 });
+
+
+function ImageViewer({ selectedImage }) {
+  // get the screen width and height
+  const screenWidth = Dimensions.get('window').width;
+  console.log(selectedImage)
+  const imageHeight = selectedImage.height;
+
+  return <Image source={{uri: selectedImage.uri}} style={{width: screenWidth - 10, height: 500, resizeMode: 'contain'}} />;
+}
 
 const PromptEditor = ({route}: any) => {
   const {selectedIndex, prompts, setPrompts, answers, setAnswers} = route.params;
@@ -37,11 +52,29 @@ const PromptEditor = ({route}: any) => {
 
   const [prompt, setPrompt] = useState(selectedIndex !== -1 ? prompts[selectedIndex]: "");
   const [answer, setAnswer] = useState(selectedIndex !== -1 ? answers[selectedIndex]: "");
+  const [imageAsset, setImageAsset] = useState(null);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <>
+          <Appbar.Action 
+            icon={'paperclip'} 
+            onPress={() => {
+              const pickImageAsync = async () => {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                  allowsEditing: true,
+                  quality: 1,
+                });
+                if (!result.canceled) {
+                  setImageAsset(result.assets[0]);
+                } else {
+                  alert('You did not select any image.');
+                }
+              };
+              pickImageAsync();
+            }} 
+          />
           {selectedIndex !== -1 && 
             <Appbar.Action 
               icon={'delete'} 
@@ -91,33 +124,29 @@ const PromptEditor = ({route}: any) => {
 
     
   return (
-    <View style={styles.container}>
-      <View
-        style={styles.btnContainer}
-      >
-        {/* <RPButton 
-          mode="contained" 
-          style={styles.btn}
-          onPress={() => addPromptResponse()}
-        >
-          Add
-        </RPButton> */}
+    <ScrollView style={styles.container}>
+      <View style={styles.textInput}>
+        <TextInput
+          multiline
+          onChangeText={prompt => setPrompt(prompt)}
+          placeholder="Write a prompt"
+          value={prompt}
+          style={styles.promptInput}
+        /> 
+        <TextInput
+          multiline
+          onChangeText={answer => setAnswer(answer)}
+          placeholder="Write your response"
+          style={styles.answerInput}
+          clearTextOnFocus={true}
+        /> 
       </View>
-      <TextInput
-        multiline
-        onChangeText={prompt => setPrompt(prompt)}
-        placeholder="Write a prompt"
-        value={prompt}
-        style={styles.promptInput}
-      /> 
-      <TextInput
-        multiline
-        onChangeText={answer => setAnswer(answer)}
-        placeholder="Write your response"
-        style={styles.answerInput}
-        clearTextOnFocus={true}
-      /> 
-    </View>
+
+      <View style={styles.picturesContainer}>
+        {imageAsset !== null && <ImageViewer selectedImage={imageAsset}/>}
+      </View>
+        
+    </ScrollView>
   )
 }
 
