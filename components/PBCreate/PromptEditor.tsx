@@ -142,7 +142,7 @@ const PromptEditor = ({route}: any) => {
         <TextInput
           multiline
           onChangeText={answer => setAnswer(answer)}
-          placeholder="Write your response"
+          placeholder="Write your response (press clip to add an image)"
           style={styles.answerInput}
           clearTextOnFocus={true}
         /> 
