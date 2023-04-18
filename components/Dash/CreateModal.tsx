@@ -27,7 +27,7 @@ const CreateModal = forwardRef((props, ref) => {
   }));
 
 
-  const presets = ["Create without preset", "College", "Yearly Checkup", "Fun Questions"];
+  const presets = ["Create without preset", "Cat Checkup", "College", "Yearly Checkup", "Fun Questions"];
 
 
   return (

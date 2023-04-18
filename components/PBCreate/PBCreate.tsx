@@ -56,6 +56,15 @@ const styles = StyleSheet.create({
 
 const presets = {
   "Create without preset": [],
+  "Cat Checkup": [
+    "What does your cat do these days?",
+    "What is your cat's current cutest pic?",
+    "What does your cat look like right now?",
+    "What is your cat's current favorite toy?",
+    "What is your cat's current favorite food?",
+    "Where does your cat chill the most?",
+    "Does your cat like you?",
+  ],
   "College": [
     "What goals do you have for your first semester? First year? What do you hope to accomplish by the time you graduate?",
     "What do you look forward to the most? What are you the most worried about?",
