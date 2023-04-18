@@ -53,12 +53,16 @@ function ImageViewer({ selectedImage }) {
 }
 
 const PromptEditor = ({route}: any) => {
-  const {selectedIndex, prompts, setPrompts, answers, setAnswers} = route.params;
+  const {
+    selectedIndex, prompts, setPrompts, 
+    answers, setAnswers, imageAssets, setImageAssets
+  } = route.params;
   const navigation = useNavigation();
+  console.log(answers[selectedIndex])
 
   const [prompt, setPrompt] = useState(selectedIndex !== -1 ? prompts[selectedIndex]: "");
   const [answer, setAnswer] = useState(selectedIndex !== -1 ? answers[selectedIndex]: "");
-  const [imageAsset, setImageAsset] = useState(null);
+  const [imageAsset, setImageAsset] = useState(selectedIndex !== -1 ? imageAssets[selectedIndex]: null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -102,7 +106,7 @@ const PromptEditor = ({route}: any) => {
         </>
       ),
     });
-  }, [prompt, answer]); // TODO: Why do i need these dependencies?
+  }, [prompt, answer, imageAsset]); // TODO: Why do i need these dependencies?
 
   const addPromptResponse = () => {
     const updatedPrompts = prompts.map((uPrompt, index) => {
@@ -111,19 +115,28 @@ const PromptEditor = ({route}: any) => {
       }
       return uPrompt;
     });
-    
     const updatedAnswers = answers.map((uAnswer, index) => {
       if (index === selectedIndex) {
         return answer;
       }
       return uAnswer;
     });
+    console.log('imageasset', imageAsset)
+    const updatedImageAssets = imageAssets.map((uImageAsset, index) => {
+      if (index === selectedIndex) {
+        return imageAsset;
+      }
+      return uImageAsset;
+    });
     if (selectedIndex === -1) {
       updatedPrompts.push(prompt);
       updatedAnswers.push(answer);
+      updatedImageAssets.push(imageAsset);
     }
     setPrompts(updatedPrompts);    
     setAnswers(updatedAnswers);
+    setImageAssets(updatedImageAssets);
+    console.log("before goback", updatedImageAssets)
     navigation.goBack();
   }
 
@@ -144,6 +157,7 @@ const PromptEditor = ({route}: any) => {
           onChangeText={answer => setAnswer(answer)}
           placeholder="Write your response (press clip to add an image)"
           style={styles.answerInput}
+          value={answer}
           clearTextOnFocus={true}
         /> 
       </View>

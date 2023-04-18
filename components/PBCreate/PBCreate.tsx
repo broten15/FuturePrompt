@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Text, Appbar, FAB, Card, Button as RPButton } from 'react-native-paper';
 import { DatePickerInput, DatePickerModal } from 'react-native-paper-dates';
 import { en, registerTranslation } from 'react-native-paper-dates'
@@ -91,13 +91,14 @@ const presets = {
 const PBCreate = ({route, navigation}: any) => {
   const {preset, promptBoards, setPromptBoards} = route.params;
 
-  
-
   const [PBName, setPBName] = useState(preset);
   const [prompts, setPrompts] = useState(presets[preset]);
-  const [answers, setAnswers] = useState(presets[preset].map(() => "(Press to edit)"));
+  const [imageAssets, setImageAssets] = useState(presets[preset].map(() => null));
+  const [answers, setAnswers] = useState(presets[preset].map(() => ""));
   const [date, setDate] = useState(undefined);
   const [dateModelOpen, setDateModelOpen] = useState(false);
+
+  
 
   useEffect(() => {
     navigation.setOptions({
@@ -199,6 +200,8 @@ const PBCreate = ({route, navigation}: any) => {
                 setPrompts: setPrompts, 
                 answers: answers,
                 setAnswers: setAnswers,
+                imageAssets: imageAssets,
+                setImageAssets: setImageAssets,
               })}
             >
               <Card 
@@ -207,22 +210,42 @@ const PBCreate = ({route, navigation}: any) => {
               >
                 <Card.Content style={styles.cardContent}>
                   <Text variant="titleMedium">{prompt}</Text>
-                  <Text 
-                    variant="bodyMedium"
-                    
-                  >{answers[index]}</Text>
+
+
+                  {answers[index] === "" && imageAssets[index] === null ? 
+                    <Text 
+                      variant="bodyMedium"
+                    >
+                      (Press to edit)
+                    </Text>
+                  : 
+                    <Text 
+                      variant="bodyMedium"
+                    >
+                      {answers[index]}
+                    </Text>
+                  }
+                  
+                  {imageAssets[index] !== null && 
+                    <Image 
+                      source={{uri: imageAssets[index].uri}} 
+                      style={{height:100, width:100}}
+                    />
+                  }
                 </Card.Content>
               </Card>
             </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
-
+        {console.log("here2",imageAssets)}
       <FAB
         icon="plus"
         label="Add Prompt"
         style={styles.fab}
         onPress={() => navigation.navigate('PromptEditor', {
+          imageAssets: imageAssets,
+          setImageAssets: setImageAssets,
           selectedIndex: -1,
           prompts: prompts,
           setPrompts: setPrompts, 
