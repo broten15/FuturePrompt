@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TextInput, Button, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Text, Appbar, FAB, Card, Button as RPButton } from 'react-native-paper';
 import { DatePickerInput, DatePickerModal } from 'react-native-paper-dates';
 import { en, registerTranslation } from 'react-native-paper-dates'
@@ -85,6 +85,21 @@ const presets = {
     "Go through a current day-in-the-life of yourself",
     "If you become famous in the next year, what do you think it will be for?",
   ]
+}
+
+function ImageViewer({ selectedImage }) {
+  // get the screen width and height
+  const screenWidth = Dimensions.get('window').width - 50;
+  console.log(selectedImage)
+  const imageHeight = selectedImage.height;
+  const imageWidth = selectedImage.width;
+  // get the ratio of height and width
+  // user width to get the new height
+  const ratio = imageHeight / imageWidth;
+  const adjustedHeight = screenWidth * ratio;
+  
+
+  return <Image source={{uri: selectedImage.uri}} style={{marginTop: 10, width: '100%', height: adjustedHeight, resizeMode: 'contain'}} />;
 }
 
 
@@ -212,24 +227,26 @@ const PBCreate = ({route, navigation}: any) => {
                   <Text variant="titleMedium">{prompt}</Text>
 
 
-                  {answers[index] === "" && imageAssets[index] === null ? 
+                  {answers[index] === "" && imageAssets[index] === null && 
                     <Text 
                       variant="bodyMedium"
                     >
                       (Press to edit)
                     </Text>
-                  : 
+                  }
+
+                  {answers[index] !== "" && 
                     <Text 
                       variant="bodyMedium"
+                      // style={{marginBottom: 10}}
                     >
                       {answers[index]}
                     </Text>
                   }
-                  
+
                   {imageAssets[index] !== null && 
-                    <Image 
-                      source={{uri: imageAssets[index].uri}} 
-                      style={{height:100, width:100}}
+                    <ImageViewer 
+                      selectedImage={imageAssets[index]}
                     />
                   }
                 </Card.Content>
