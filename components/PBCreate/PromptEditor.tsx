@@ -42,8 +42,14 @@ function ImageViewer({ selectedImage }) {
   const screenWidth = Dimensions.get('window').width;
   console.log(selectedImage)
   const imageHeight = selectedImage.height;
+  const imageWidth = selectedImage.width;
+  // get the ratio of height and width
+  // user width to get the new height
+  const ratio = imageHeight / imageWidth;
+  const adjustedHeight = screenWidth * ratio;
+  
 
-  return <Image source={{uri: selectedImage.uri}} style={{width: screenWidth - 10, height: 500, resizeMode: 'contain'}} />;
+  return <Image source={{uri: selectedImage.uri}} style={{width: screenWidth - 10, height: adjustedHeight, resizeMode: 'contain'}} />;
 }
 
 const PromptEditor = ({route}: any) => {
