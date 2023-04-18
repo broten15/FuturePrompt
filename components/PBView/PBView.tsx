@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { View, StyleSheet, AsyncStorage } from 'react-native';
 import { Text, Appbar, FAB, Card, Button } from 'react-native-paper';
 import { bgColor } from '../constants';
+import { ImageViewer } from '../PBCreate/PBCreate';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,6 +41,7 @@ const PBView = (props: any) => {
   const navigation = props.navigation;
   const prompts = props.route.params.promptBoard.prompts;
   const answers = props.route.params.promptBoard.answers;
+  const imageAssets = props.route.params.promptBoard.imageAssets;
   const name = props.route.params.promptBoard.name;
   const promptBoards = props.route.params.promptBoards;
   const setPromptBoards = props.route.params.setPromptBoards;
@@ -79,7 +81,10 @@ const PBView = (props: any) => {
         >
           <Card.Content style={styles.cardContent}>
             <Text variant="titleLarge">{prompt}</Text>
-            <Text variant="bodyMedium">{answers[index]}</Text>
+            {answers[index] !== "" && 
+              <Text variant="bodyMedium">{answers[index]}</Text>
+            }
+            <ImageViewer selectedImage={imageAssets[index]}/>
           </Card.Content>
         </Card>
       ))}

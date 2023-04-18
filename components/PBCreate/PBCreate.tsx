@@ -87,7 +87,7 @@ const presets = {
   ]
 }
 
-function ImageViewer({ selectedImage }) {
+export function ImageViewer({ selectedImage }) {
   // get the screen width and height
   const screenWidth = Dimensions.get('window').width - 50;
   console.log(selectedImage)
@@ -155,6 +155,7 @@ const PBCreate = ({route, navigation}: any) => {
       name: PBName,
       prompts: prompts,
       answers: answers,
+      imageAssets: imageAssets,
       receiveDate: date.toDateString(),
       createDate: (new Date()).toDateString(),
     }
